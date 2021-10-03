@@ -1,13 +1,12 @@
-const http = require('http');
+const express = require('express');
 
+const app = express();
 const port = process.env.SERVER_PORT || 5000;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/html');
-  res.end('<h1>Hello, World!</h1>');
+app.get('/puppet', (req, res) => {
+  res.json({ foo: 'bar' });
 });
 
-server.listen(port, () => {
-  console.log(`Server running at port ${port}`);
+app.listen(port, () => {
+  console.log('Server running on port 3000');
 });
