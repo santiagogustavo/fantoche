@@ -46,9 +46,9 @@
           </v-col>
         </v-row>
       </v-form>
-      <v-row v-if="imageUrl" class="fantoche-table__url" justify="center" align="center">
+      <div v-if="imageUrl" class="fantoche-table__url">
         {{ imageUrl }}
-      </v-row>
+      </div>
       <div v-if="imageUrl" class="fantoche-table__print" :style="cssVars">
         <img :src="imageUrl" />
       </div>
@@ -109,8 +109,9 @@ export default {
 }
 
 .page {
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,9 +123,9 @@ export default {
   width: fit-content;
 
   &__url {
-    margin: 32px;
+    margin: 32px 0;
+    width: 100%;
     text-align: center;
-    width: inherit;
     font-weight: bold;
   }
 
