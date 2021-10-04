@@ -35,17 +35,20 @@
           </v-row>
         </v-container>
         <v-row justify="center" align="center">
-          <v-btn
-            :disabled="!valid"
-            color="success"
-            class="mr-4"
-            @click="handleClickPrint"
-          >
-            Print
-          </v-btn>
+          <v-col cols="12" md="6" align="center">
+            <v-btn
+              :disabled="!valid"
+              color="success"
+              @click="handleClickPrint"
+            >
+              Print
+            </v-btn>
+          </v-col>
         </v-row>
       </v-form>
-      <div v-if="imageUrl" class="fantoche-table__url">{{ imageUrl }}</div>
+      <v-row v-if="imageUrl" class="fantoche-table__url" justify="center" align="center">
+        {{ imageUrl }}
+      </v-row>
       <div v-if="imageUrl" class="fantoche-table__print" :style="cssVars">
         <img :src="imageUrl" />
       </div>
@@ -54,6 +57,7 @@
 </template>
 
 <script>
+import { isWebUri } from 'valid-url';
 import { FANTOCHE_APP_BASE_URL } from '@/constants/url';
 
 export default {
@@ -63,9 +67,12 @@ export default {
     url: '',
     width: '',
     height: '',
-    urlRules: [(v) => !!v || 'URL is required'],
+    urlRules: [
+      (v) => !!v || 'URL is required',
+      (v) => !!isWebUri(v) || 'Must be a valid URL',
+    ],
     dimensionRules: [
-      (v) => Number(v) > 0 || 'Width must be a number greater than zero',
+      (v) => Number(v) > 0 || 'Must be a number greater than zero',
     ],
     imageUrl: '',
   }),
