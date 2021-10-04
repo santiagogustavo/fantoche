@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 const validUrl = require('valid-url');
 
 const app = express();
-const port = process.env.SERVER_PORT || 5000;
+const port = process.env.PORT || 5000;
 
 const parseUrl = (url) => {
   url = decodeURIComponent(url);
