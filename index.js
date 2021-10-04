@@ -14,8 +14,9 @@ const parseUrl = (url) => {
   return url;
 };
 
-app.get('/puppet', async (req, res) => {
+app.get('/', async (req, res) => {
   const urlToScreenshot = parseUrl(req.query.url);
+  const { width, height } = req.query;
 
   if (validUrl.isWebUri(urlToScreenshot)) {
     console.log('Screenshotting: ' + urlToScreenshot);
@@ -25,6 +26,10 @@ app.get('/puppet', async (req, res) => {
       });
 
       const page = await browser.newPage();
+
+      if (height && width) {
+        await page.setViewport({ width: Number(width), height: Number(height) });
+      }
       await page.goto(urlToScreenshot);
       await page.screenshot().then(function (buffer) {
         res.setHeader(
