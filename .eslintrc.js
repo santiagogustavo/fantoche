@@ -3,5 +3,6 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['standard', 'prettier'],
+  extends: ['airbnb-base', 'prettier'],
+  plugins: ['import']
 };
