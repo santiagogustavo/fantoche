@@ -5,21 +5,12 @@ const validUrl = require('valid-url');
 const app = express();
 const port = process.env.PORT || 5000;
 
-const parseUrl = (url) => {
-  url = decodeURIComponent(url);
-  if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
-    url = 'http://' + url;
-  }
-
-  return url;
-};
-
 app.get('/', async (req, res) => {
-  const urlToScreenshot = parseUrl(req.query.url);
+  const urlToScreenshot = decodeURIComponent(req.query.url);
   const { width, height } = req.query;
 
   if (validUrl.isWebUri(urlToScreenshot)) {
-    console.log('Screenshotting: ' + urlToScreenshot);
+    console.log('Screenshotting: ', urlToScreenshot);
     (async () => {
       const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -28,13 +19,16 @@ app.get('/', async (req, res) => {
       const page = await browser.newPage();
 
       if (height && width) {
-        await page.setViewport({ width: Number(width), height: Number(height) });
+        await page.setViewport({
+          width: Number(width),
+          height: Number(height),
+        });
       }
       await page.goto(urlToScreenshot);
-      await page.screenshot().then(function (buffer) {
+      await page.screenshot().then(buffer => {
         res.setHeader(
           'Content-Disposition',
-          'attachment;filename="' + urlToScreenshot + '.png"'
+          `attachment;filename="${urlToScreenshot}.png"`
         );
         res.setHeader('Content-Type', 'image/png');
         res.send(buffer);
@@ -43,7 +37,7 @@ app.get('/', async (req, res) => {
       await browser.close();
     })();
   } else {
-    res.send('Invalid url: ' + urlToScreenshot);
+    res.send('Invalid url: ', urlToScreenshot);
   }
 });
 

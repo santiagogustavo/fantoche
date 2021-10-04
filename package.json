@@ -1,14 +1,14 @@
 {
   "name": "fantoche",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "license": "MIT",
   "engines": {
     "yarn": "1.x"
   },
   "scripts": {
-    "start": "node index.js",
-    "start:dev": "nodemon index.js",
+    "start": "node src/index.js",
+    "start:dev": "nodemon src/index.js",
     "deploy": "git push heroku master"
   },
   "lint-staged": {
