@@ -24,7 +24,7 @@ app.get('/', async (req, res) => {
           height: Number(height),
         });
       }
-      await page.goto(urlToScreenshot);
+      await page.goto(urlToScreenshot, { waitUntil: 'networkidle0' });
 
       if (wait) {
         await page.waitForSelector(wait, { visible: true });
