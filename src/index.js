@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 
 app.get('/', async (req, res) => {
   const urlToScreenshot = decodeURIComponent(req.query.url);
-  const { width, height } = req.query;
+  const { width, height, wait } = req.query;
 
   if (validUrl.isWebUri(urlToScreenshot)) {
     console.log('Screenshotting: ', urlToScreenshot);
@@ -25,6 +25,11 @@ app.get('/', async (req, res) => {
         });
       }
       await page.goto(urlToScreenshot);
+
+      if (wait) {
+        await page.waitForSelector(wait, { visible: true });
+      }
+
       await page.screenshot().then(buffer => {
         res.setHeader(
           'Content-Disposition',
